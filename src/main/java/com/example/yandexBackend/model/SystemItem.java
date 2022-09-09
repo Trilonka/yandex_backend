@@ -26,15 +26,14 @@ public class SystemItem {
     @Column
     private String date; // date-time format // not null // last update time // "2022-05-28T21:12:01.000Z"
 
-    @ManyToOne
-    private SystemItem parent; // can null
+    private String parentId; // can null
 
     @Column
     private SystemItemType type;
 
     @Column
-    private int size; // can null // int64
+    private Integer size; // can null // int64
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parentId")
     private List<SystemItem> children;
 }
