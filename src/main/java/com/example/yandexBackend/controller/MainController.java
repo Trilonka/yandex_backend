@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -69,8 +70,12 @@ public class MainController {
     }
 
     @GetMapping("/nodes/{id}")
-    public ResponseEntity<HttpStatus> getById(@PathVariable("id") String id) {
-        return null;
+    public ResponseEntity<SystemItem> getById(@PathVariable("id") String id) {
+        Optional<SystemItem> systemItem = systemItemService.findById(id);
+        if (systemItem.isEmpty())
+            throw new SystemItemNotFoundException("Item not found");
+
+        return new ResponseEntity<>(systemItem.get(), HttpStatus.OK);
     }
 
     private SystemItem convertToSystemItem(SystemItemImport itemImport) {
