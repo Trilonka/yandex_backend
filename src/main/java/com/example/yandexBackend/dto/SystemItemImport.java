@@ -1,21 +1,18 @@
-package com.example.yandexBackend.model;
+package com.example.yandexBackend.dto;
 
 import com.example.yandexBackend.model.constant.SystemItemType;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class SystemItemImport {
 
     @NotNull
     private String id;
-
     private String url;
     private String parentId;
     private SystemItemType type;

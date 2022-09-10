@@ -11,12 +11,12 @@ import org.springframework.validation.Validator;
 import java.util.Optional;
 
 @Component
-public class SystemItemValid implements Validator {
+public class SystemItemValidator implements Validator {
 
     private final SystemItemService itemService;
 
     @Autowired
-    public SystemItemValid(SystemItemService itemService) {
+    public SystemItemValidator(SystemItemService itemService) {
         this.itemService = itemService;
     }
 

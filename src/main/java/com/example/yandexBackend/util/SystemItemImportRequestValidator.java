@@ -1,7 +1,7 @@
 package com.example.yandexBackend.util;
 
-import com.example.yandexBackend.model.SystemItemImport;
-import com.example.yandexBackend.model.SystemItemImportRequest;
+import com.example.yandexBackend.dto.SystemItemImport;
+import com.example.yandexBackend.dto.SystemItemImportRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 import java.util.stream.Collectors;
 
 @Component
-public class SystemItemImportRequestValid implements Validator {
+public class SystemItemImportRequestValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {

@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface SystemItemRepository extends JpaRepository<SystemItem, String> {
 
-    public void deleteByDate(String date);
-    public Optional<SystemItem> findByDate(String date);
+    void deleteByDate(String date);
+    Optional<SystemItem> findByDate(String date);
 }

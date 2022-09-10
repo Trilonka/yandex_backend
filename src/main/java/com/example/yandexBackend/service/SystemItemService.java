@@ -1,14 +1,12 @@
 package com.example.yandexBackend.service;
 
 import com.example.yandexBackend.model.SystemItem;
-import com.example.yandexBackend.model.constant.SystemItemType;
 import com.example.yandexBackend.repository.SystemItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,8 +37,6 @@ public class SystemItemService {
             if (existingItem.isPresent()) {
                 int existingSize = existingItem.get().getSize()==null ? 0 : existingItem.get().getSize();
                 differenceSize = systemItem.getSize() - existingSize;
-                System.out.println(systemItem.getSize());
-                System.out.println(existingSize);
             }
 
             SystemItem parent;
@@ -48,7 +44,6 @@ public class SystemItemService {
             while (parentId!=null) {
                 parent = findById(parentId).get();
                 parent.setSize(parent.getSize() + differenceSize);
-                System.out.println(parentId + " " + parent.getSize());
                 parent.setDate(dateUpdate);
                 parentId = parent.getParentId();
             }
@@ -59,7 +54,15 @@ public class SystemItemService {
 
     @Transactional
     public void saveList(List<SystemItem> items, String date) {
-        items.forEach(e -> save(e, date));
+        Deque<SystemItem> itemsDeque = new ArrayDeque<>(items);
+
+        while (!itemsDeque.isEmpty()) {
+            if (itemsDeque.peekFirst().getParentId()==null || systemItemRepository.findById(itemsDeque.peekFirst().getParentId()).isPresent()) {
+                save(itemsDeque.pollFirst(), date);
+            } else {
+                itemsDeque.addLast(itemsDeque.pollFirst());
+            }
+        }
     }
 
     @Transactional
