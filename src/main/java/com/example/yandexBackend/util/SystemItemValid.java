@@ -32,7 +32,7 @@ public class SystemItemValid implements Validator {
 
         if (item.getParentId()!=null) {
             SystemItem parent = itemService.findById(item.getParentId()).orElse(null);
-            if (parent!=null && parent.getType()==SystemItemType.FILE)
+            if (parent == null || parent.getType() == SystemItemType.FILE)
                 errors.rejectValue("parentId", "400");
         }
         if (itemDb.isPresent() && itemDb.get().getType()!=item.getType())
