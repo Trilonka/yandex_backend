@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @RestController
 public class MainController {
 

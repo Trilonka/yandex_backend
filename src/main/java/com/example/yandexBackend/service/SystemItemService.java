@@ -25,16 +25,24 @@ public class SystemItemService {
     }
 
     @Transactional
-    public void save(SystemItem systemItem) {
+    public void save(SystemItem systemItem, String dateUpdate) {
+        int differenceSize = 0;
+        Optional<SystemItem> existingItem = findById(systemItem.getId());
+        if (existingItem.isPresent())
+            differenceSize = systemItem.getSize() - existingItem.get().getSize();
+        SystemItem parent = findById(systemItem.getParentId()).orElse(null);
+        while (parent!=null) {
+            parent.setSize(parent.getSize() + differenceSize);
+            parent.setDate(dateUpdate);
+            parent = findById(systemItem.getParentId()).orElse(null);
+        }
+        systemItem.setDate(dateUpdate);
         systemItemRepository.save(systemItem);
     }
 
     @Transactional
     public void saveList(List<SystemItem> items, String date) {
-        items.forEach(e -> {
-            e.setDate(date);
-            save(e);
-        });
+        items.forEach(e -> save(e, date));
     }
 
     @Transactional
