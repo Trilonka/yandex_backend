@@ -4,6 +4,7 @@ import com.example.yandexBackend.model.Error;
 import com.example.yandexBackend.model.SystemItem;
 import com.example.yandexBackend.model.SystemItemImport;
 import com.example.yandexBackend.model.SystemItemImportRequest;
+import com.example.yandexBackend.model.constant.SystemItemType;
 import com.example.yandexBackend.service.SystemItemService;
 import com.example.yandexBackend.util.SystemItemImportRequestValid;
 import com.example.yandexBackend.util.SystemItemNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -71,6 +73,7 @@ public class MainController {
     @GetMapping("/nodes/{id}")
     public ResponseEntity<SystemItem> getById(@PathVariable("id") String id) {
         Optional<SystemItem> systemItem = systemItemService.findById(id);
+
         if (systemItem.isEmpty())
             throw new SystemItemNotFoundException("Item not found");
 

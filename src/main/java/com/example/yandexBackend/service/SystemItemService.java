@@ -1,6 +1,7 @@
 package com.example.yandexBackend.service;
 
 import com.example.yandexBackend.model.SystemItem;
+import com.example.yandexBackend.model.constant.SystemItemType;
 import com.example.yandexBackend.repository.SystemItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,15 +27,31 @@ public class SystemItemService {
 
     @Transactional
     public void save(SystemItem systemItem, String dateUpdate) {
-        int differenceSize = 0;
         Optional<SystemItem> existingItem = findById(systemItem.getId());
-        if (existingItem.isPresent())
-            differenceSize = systemItem.getSize() - existingItem.get().getSize();
-        SystemItem parent = findById(systemItem.getParentId()).orElse(null);
-        while (parent!=null) {
-            parent.setSize(parent.getSize() + differenceSize);
-            parent.setDate(dateUpdate);
-            parent = findById(systemItem.getParentId()).orElse(null);
+        if (systemItem.getSize()==null) {
+            if (existingItem.isEmpty())
+                systemItem.setSize(0);
+            else
+                systemItem.setSize(existingItem.get().getSize());
+        }
+        else {
+            int differenceSize = systemItem.getSize();
+            if (existingItem.isPresent()) {
+                int existingSize = existingItem.get().getSize()==null ? 0 : existingItem.get().getSize();
+                differenceSize = systemItem.getSize() - existingSize;
+                System.out.println(systemItem.getSize());
+                System.out.println(existingSize);
+            }
+
+            SystemItem parent;
+            String parentId = systemItem.getParentId();
+            while (parentId!=null) {
+                parent = findById(parentId).get();
+                parent.setSize(parent.getSize() + differenceSize);
+                System.out.println(parentId + " " + parent.getSize());
+                parent.setDate(dateUpdate);
+                parentId = parent.getParentId();
+            }
         }
         systemItem.setDate(dateUpdate);
         systemItemRepository.save(systemItem);

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -37,4 +36,10 @@ public class SystemItem {
 
     @OneToMany(mappedBy = "parentId")
     private List<SystemItem> children;
+
+    public List<SystemItem> getChildren() {
+        if (type==SystemItemType.FILE)
+            return null;
+        return children;
+    }
 }

@@ -1,48 +1,45 @@
 package com.example.yandexBackend.controller;
 
-import com.example.yandexBackend.model.SystemItemImport;
+import com.example.yandexBackend.model.SystemItem;
 import com.example.yandexBackend.model.SystemItemImportRequest;
-import com.example.yandexBackend.model.constant.SystemItemType;
+import com.example.yandexBackend.service.SystemItemService;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
+import java.net.URI;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 class LoadDataTest {
 
-    String URL = "https://localhost:8080/imports";
-    private final MainController controller;
-
     @Autowired
-    LoadDataTest(MainController controller) {
-        this.controller = controller;
-    }
+    private TestRestTemplate restTemplate;
+
+    @LocalServerPort
+    int randomServerPort;
 
     @Test
-    void load() {
-        SystemItemImportRequest request = new SystemItemImportRequest();
-        SystemItemImport itemImport = new SystemItemImport();
-        itemImport.setId("069cb8d7-bbdd-47d3-ad8f-82ef4c269df1");
-        itemImport.setType(SystemItemType.FOLDER);
-        request.setItems(
-                List.of(
-                        itemImport
-                )
-        );
-        request.setUpdateDate("2022-02-01T12:00:00Z");
-
-        RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<SystemItemImportRequest> httpRequest = new HttpEntity<>(request);
-        ResponseEntity response = restTemplate.postForObject(URL, httpRequest, ResponseEntity.class);
-
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
+    public void testLoadItems() throws Exception {
+        final String baseUrl = "http://localhost:"+randomServerPort+"/imports";
+        URI uri = new URI(baseUrl);
+        SystemItemImportRequest requestItem = new SystemItemImportRequest();
     }
 }
