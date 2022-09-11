@@ -2,6 +2,7 @@ package com.example.yandexBackend.model;
 
 import com.example.yandexBackend.model.constant.SystemItemType;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,6 +23,7 @@ public class SystemItem {
     private String url;
 
     @Column
+    @DateTimeFormat(pattern = "yyyyMMdd'T'HH:mm:ssZ")
     private String date;
 
     private String parentId;
