@@ -95,7 +95,7 @@ public class MainController {
     {
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(date);
         return new ResponseEntity<>(
-                new SystemItemHistoryResponse(systemItemService.getByDate(zonedDateTime).stream()
+                new SystemItemHistoryResponse(systemItemService.getByDateBefore(zonedDateTime).stream()
                         .map(this::convertToSystemItemHistoryUnit)
                         .collect(Collectors.toList())),
                 HttpStatus.OK);

@@ -73,7 +73,7 @@ public class SystemItemServiceDefault implements SystemItemService {
         return false;
     }
 
-    public List<SystemItem> getByDate(ZonedDateTime zonedDateTime) {
+    public List<SystemItem> getByDateBefore(ZonedDateTime zonedDateTime) {
         return systemItemRepository.findByDateBetween(zonedDateTime.minusDays(1).toString(), zonedDateTime.toString());
     }
 

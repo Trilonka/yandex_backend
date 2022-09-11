@@ -13,5 +13,5 @@ public interface SystemItemService {
 
     boolean deleteIfExists(String id);
 
-    List<SystemItem> getByDate(ZonedDateTime zonedDateTime);
+    List<SystemItem> getByDateBefore(ZonedDateTime zonedDateTime);
 }
