@@ -1,4 +1,4 @@
-package com.example.yandexBackend.dto;
+package com.example.yandexBackend.dto.request;
 
 import com.example.yandexBackend.model.constant.SystemItemType;
 import lombok.*;

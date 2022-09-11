@@ -1,6 +1,6 @@
 package com.example.yandexBackend.controller;
 
-import com.example.yandexBackend.dto.SystemItemImportRequest;
+import com.example.yandexBackend.dto.request.SystemItemImportRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

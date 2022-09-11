@@ -1,5 +1,4 @@
-package com.example.yandexBackend.dto;
-
+package com.example.yandexBackend.dto.request;
 
 import lombok.*;
 

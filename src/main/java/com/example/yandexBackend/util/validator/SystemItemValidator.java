@@ -1,4 +1,4 @@
-package com.example.yandexBackend.util;
+package com.example.yandexBackend.util.validator;
 
 import com.example.yandexBackend.model.SystemItem;
 import com.example.yandexBackend.model.constant.SystemItemType;

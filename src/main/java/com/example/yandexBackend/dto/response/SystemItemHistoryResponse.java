@@ -1,4 +1,4 @@
-package com.example.yandexBackend.dto;
+package com.example.yandexBackend.dto.response;
 
 import com.example.yandexBackend.model.SystemItemHistoryUnit;
 import lombok.AllArgsConstructor;

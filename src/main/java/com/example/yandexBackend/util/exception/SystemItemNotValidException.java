@@ -1,4 +1,4 @@
-package com.example.yandexBackend.util;
+package com.example.yandexBackend.util.exception;
 
 public class SystemItemNotValidException extends RuntimeException {
 }

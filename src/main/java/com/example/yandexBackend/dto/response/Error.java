@@ -1,4 +1,4 @@
-package com.example.yandexBackend.model;
+package com.example.yandexBackend.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,30 +1,25 @@
-package com.example.yandexBackend.model;
+package com.example.yandexBackend.dto.response;
 
+import com.example.yandexBackend.model.SystemItem;
 import com.example.yandexBackend.model.constant.SystemItemType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "system_item_history")
-public class SystemItemHistoryUnit {
-
-    @Id
-    @Column(name = "history_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int historyId;
+public class SystemItemResponse {
 
     private String id;
     private String url;
+    private String date;
     private String parentId;
     private SystemItemType type;
     private Integer size;
-    private String date;
+    private List<SystemItem> children;
 }

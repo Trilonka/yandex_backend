@@ -1,16 +1,18 @@
 package com.example.yandexBackend.controller;
 
-import com.example.yandexBackend.dto.SystemItemHistoryResponse;
-import com.example.yandexBackend.model.Error;
+import com.example.yandexBackend.dto.response.SystemItemHistoryResponse;
+import com.example.yandexBackend.dto.response.Error;
+import com.example.yandexBackend.dto.response.SystemItemResponse;
 import com.example.yandexBackend.model.SystemItem;
-import com.example.yandexBackend.dto.SystemItemImport;
-import com.example.yandexBackend.dto.SystemItemImportRequest;
+import com.example.yandexBackend.dto.request.SystemItemImport;
+import com.example.yandexBackend.dto.request.SystemItemImportRequest;
 import com.example.yandexBackend.model.SystemItemHistoryUnit;
 import com.example.yandexBackend.model.constant.ErrorMessages;
+import com.example.yandexBackend.service.SystemItemHistoryUnitService;
 import com.example.yandexBackend.service.SystemItemService;
-import com.example.yandexBackend.util.SystemItemNotFoundException;
-import com.example.yandexBackend.util.SystemItemNotValidException;
-import com.example.yandexBackend.util.SystemItemValidator;
+import com.example.yandexBackend.util.exception.SystemItemNotFoundException;
+import com.example.yandexBackend.util.exception.SystemItemNotValidException;
+import com.example.yandexBackend.util.validator.SystemItemValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,15 +33,17 @@ public class MainController {
 
     private final ModelMapper modelMapper;
     private final SystemItemService systemItemService;
+    private final SystemItemHistoryUnitService systemItemHistoryUnitService;
     private final SystemItemValidator systemItemValidator;
 
     @Autowired
     public MainController(ModelMapper modelMapper,
                           SystemItemService systemItemService,
-                          SystemItemValidator systemItemValidator)
+                          SystemItemHistoryUnitService systemItemHistoryUnitService, SystemItemValidator systemItemValidator)
     {
         this.modelMapper = modelMapper;
         this.systemItemService = systemItemService;
+        this.systemItemHistoryUnitService = systemItemHistoryUnitService;
         this.systemItemValidator = systemItemValidator;
     }
 
@@ -76,13 +81,13 @@ public class MainController {
     }
 
     @GetMapping("/nodes/{id}")
-    public ResponseEntity<SystemItem> getById(@PathVariable("id") String id) {
+    public ResponseEntity<SystemItemResponse> getById(@PathVariable("id") String id) {
         Optional<SystemItem> systemItem = systemItemService.findById(id);
 
         if (systemItem.isEmpty())
             throw new SystemItemNotFoundException();
 
-        return new ResponseEntity<>(systemItem.get(), HttpStatus.OK);
+        return new ResponseEntity<>(convertToSystemItemResponse(systemItem.get()), HttpStatus.OK);
     }
 
     @GetMapping("/updates")
@@ -96,12 +101,28 @@ public class MainController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/node/{id}/history")
+    public ResponseEntity<SystemItemHistoryResponse> getItemHistory(@PathVariable("id") String id,
+                                                                    @RequestParam("dateStart") String dateStart,
+                                                                    @RequestParam("dateEnd") String dateEnd)
+    {
+        List<SystemItemHistoryUnit> itemHistory = systemItemHistoryUnitService.getItemHistory(id, dateStart, dateEnd);
+        if (itemHistory.isEmpty())
+            throw new SystemItemNotFoundException();
+
+        return new ResponseEntity<>(new SystemItemHistoryResponse(itemHistory), HttpStatus.OK);
+    }
+
     private SystemItem convertToSystemItem(SystemItemImport itemImport) {
         return modelMapper.map(itemImport, SystemItem.class);
     }
 
     private SystemItemHistoryUnit convertToSystemItemHistoryUnit(SystemItem systemItem) {
         return modelMapper.map(systemItem, SystemItemHistoryUnit.class);
+    }
+
+    private SystemItemResponse convertToSystemItemResponse(SystemItem systemItem) {
+        return modelMapper.map(systemItem, SystemItemResponse.class);
     }
 
     @ExceptionHandler(value =
