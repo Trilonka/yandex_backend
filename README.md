@@ -111,3 +111,9 @@ spring.jpa.properties.hibernate.order_inserts=true
 ```
 ./mvnw spring-boot:run
 ```
+
+Или при собранном jar:
+
+```
+java -jar .\target\yandexBackend-0.0.1-SNAPSHOT.jar
+```
