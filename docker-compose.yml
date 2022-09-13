@@ -1,0 +1,25 @@
+version: '1.0'
+
+services:
+  app:
+    container_name: yandex_backend
+    build: ./
+    depends_on:
+      - db
+    environment:
+        DATABASE_URL: postgresql://db:5432/yandex_db
+        DATABASE_USER: trilonka
+        DATABASE_PASSWORD: password
+    ports:
+      - "8080:8080"
+  db:
+    container_name: yandex_backend_data
+    image: postgres:13.1-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: yandex_db
+      POSTGRES_USER: trilonka
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
