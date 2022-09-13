@@ -2,7 +2,7 @@
 
 Для начала используйте git clone, чтобы скачать проект на свой компьютер
 
-```bash
+```
 git clone https://github.com/Trilonka/yandex_backend.git
 ```
 
@@ -12,7 +12,7 @@ git clone https://github.com/Trilonka/yandex_backend.git
 
 При установленном docker-compose все можно запустить одной командой:
 
-```bash
+```
 docker-compose up
 ```
 
@@ -20,7 +20,7 @@ docker-compose up
 
 Для запуска в фоновом режиме можно использовать:
 
-```bash
+```
 docker-compose up -d
 ```
 
@@ -28,14 +28,14 @@ docker-compose up -d
 
 Остановить все запущенные контейнеры также можно одной командой:
 
-```bash
+```
 docker-compose down
 ```
 
 Если вам нужно остановить и удалить все контейнеры и все образы, используемые какой-либо службой в файле docker-compose.yml, используйте команду
 (все данные, ранее сохраненные в таблице, будут удалены):
 
-```bash
+```
 docker-compose down --rmi all
 ```
 
@@ -43,7 +43,7 @@ docker-compose down --rmi all
 
 Если приложение необходимо автоматически запускать при перезагрузке системы, то создайте следующий файл (путь указан первой строкой):
 
-```bash
+```properties
 # /etc/systemd/system/yandex-backend-app.service
 
 [Unit]
@@ -71,5 +71,49 @@ systemctl enable yandex-backend-app
 
 ## Самостоятельная инициализация и запуск
 
+### Инициализация
+
+Создайте или используйте имеющуюся базу данных postgresql и измените файл (путь указан первой строкой):
+
+```properties
+#src/main/resources/application.properties
+
+spring.datasource.url=jdbc:postgreqsl://localhost:5432/database_name
+spring.datasource.username=user_name
+spring.datasource.password=user_password
+
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+
+spring.jpa.properties.hibernate.jdbc.batch_size=4
+spring.jpa.properties.hibernate.order_inserts=true
+```
+
+Заменив spring.datasource.url, spring.datasource.username и spring.datasource.password на Ваши данные для подключения к базе данных.
+
+В своей базе данных создайте необходимые таблицы. SQL для их создания находится в [этом файле](./init.sql).
+
+Если Вам нужен исполняемый jar файл, Вы можете собрать его, находясь в каталоге проекта и используя команду:
+
+```
+./mvnw clean install
+```
+
+Если Вы хотите пропустить тесты при сборке, используйте:
+
+```
+./mvnw clean install -DskipTests=true
+```
+
 ### Запуск приложения
 
+Запустить приложение можно, используя:
+
+```
+./mvnw spring-boot:run
+```
+
+Или если вы собирали jar:
+
+```
+java -jar .\target\yandexBackend-0.0.1-SNAPSHOT.jar
+```
