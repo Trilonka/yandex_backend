@@ -51,9 +51,6 @@ public class MainController {
     public ResponseEntity<HttpStatus> load(@RequestBody @Valid SystemItemImportRequest requestItems,
                                            BindingResult result)
     {
-        if (requestItems==null || requestItems.getItems().size()<1)
-            throw new SystemItemNotValidException();
-
         if (result.hasErrors())
             throw new SystemItemNotValidException();
 
