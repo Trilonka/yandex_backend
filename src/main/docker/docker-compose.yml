@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  app:
+    image: 'trilonka_yandex_backend:latest'
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - db
+    environment:
+#      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/yandex
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_PROPERTIES_HIBERNATE_JDBC_BATCH_SIZE=4
+      - SPRING_JPA_PROPERTIES_HIBERNATE_ORDER_INSERTS=true
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
