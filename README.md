@@ -10,6 +10,18 @@ git clone https://github.com/Trilonka/yandex_backend.git
 
 ### Запуск приложения
 
+Соберите jar файл:
+
+```
+./mvnw clean install
+```
+
+Если Вы хотите пропустить тесты при сборке, используйте:
+
+```
+./mvnw clean install -DskipTests=true
+```
+
 При установленном docker-compose все можно запустить одной командой:
 
 ```
@@ -92,28 +104,10 @@ spring.jpa.properties.hibernate.order_inserts=true
 
 В своей базе данных создайте необходимые таблицы. SQL для их создания находится в [этом файле](./init.sql).
 
-Если Вам нужен исполняемый jar файл, Вы можете собрать его, находясь в каталоге проекта и используя команду:
-
-```
-./mvnw clean install
-```
-
-Если Вы хотите пропустить тесты при сборке, используйте:
-
-```
-./mvnw clean install -DskipTests=true
-```
-
 ### Запуск
 
-Запустить приложение можно, используя:
+Запустить приложение можно просто, используя:
 
 ```
 ./mvnw spring-boot:run
-```
-
-Или если вы собирали jar:
-
-```
-java -jar .\target\yandexBackend-0.0.1-SNAPSHOT.jar
 ```
