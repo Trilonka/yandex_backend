@@ -51,6 +51,7 @@ public class MainController {
     public ResponseEntity<HttpStatus> load(@RequestBody @Valid SystemItemImportRequest requestItems,
                                            BindingResult result)
     {
+        System.out.println("helloooooofdsofdosofsdo");
         if (result.hasErrors())
             throw new SystemItemNotValidException();
 

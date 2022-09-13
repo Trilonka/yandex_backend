@@ -7,6 +7,7 @@ import com.example.yandexBackend.model.SystemItemHistoryUnit;
 import com.example.yandexBackend.model.constant.SystemItemType;
 import com.example.yandexBackend.repository.SystemItemHistoryUnitRepository;
 import com.example.yandexBackend.repository.SystemItemRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.mockito.Mockito;
@@ -26,7 +27,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 
 @AutoConfigureMockMvc
@@ -73,7 +73,7 @@ class MainControllerTest {
                 .updateDate("2022-02-01T12:00:00Z")
                 .build();
 
-        assertEquals(200, postRequestStatus(requestItem));
+        Assertions.assertEquals(200, postRequestStatus(requestItem));
     }
 
     @Test
@@ -83,7 +83,7 @@ class MainControllerTest {
                 .updateDate("2022-03-01T12:00:00Z")
                 .build();
 
-        assertEquals(400, postRequestStatus(requestItem));
+        Assertions.assertEquals(400, postRequestStatus(requestItem));
     }
 
     @Test
@@ -98,7 +98,7 @@ class MainControllerTest {
                 .updateDate("2022-04-01T12:00:00Z")
                 .build();
 
-        assertEquals(400, postRequestStatus(requestItem));
+        Assertions.assertEquals(400, postRequestStatus(requestItem));
     }
 
     @Test
@@ -108,7 +108,7 @@ class MainControllerTest {
                 .updateDate("2022-05-01T12:00:00Z")
                 .build();
 
-        assertEquals(400, postRequestStatus(requestItem));
+        Assertions.assertEquals(400, postRequestStatus(requestItem));
     }
 
     @Test
@@ -118,7 +118,7 @@ class MainControllerTest {
                 .updateDate("202-04-01T12:00:00Z")
                 .build();
 
-        assertEquals(400, postRequestStatus(requestItem));
+        Assertions.assertEquals(400, postRequestStatus(requestItem));
     }
 
     @Test
@@ -143,7 +143,7 @@ class MainControllerTest {
                 .updateDate("2022-05-01T12:00:00Z")
                 .build();
 
-        assertEquals(200, postRequestStatus(requestItem));
+        Assertions.assertEquals(200, postRequestStatus(requestItem));
     }
 
     @Test
@@ -151,12 +151,12 @@ class MainControllerTest {
         Mockito.when(this.systemItemRepository.findById("item-526"))
                 .thenReturn(Optional.of(new SystemItem()));
 
-        assertEquals(200, deleteRequestStatus("item-526"));
+        Assertions.assertEquals(200, deleteRequestStatus("item-526"));
     }
 
     @Test
     public void removeNotExist() throws Exception {
-        assertEquals(404, deleteRequestStatus("somenodefds"));
+        Assertions.assertEquals(404, deleteRequestStatus("somenodefds"));
     }
 
     @Test
@@ -164,12 +164,12 @@ class MainControllerTest {
         Mockito.when(this.systemItemRepository.findById("hinode"))
                 .thenReturn(Optional.of(new SystemItem()));
 
-        assertEquals(200, getRequestStatus("nodes/hinode"));
+        Assertions.assertEquals(200, getRequestStatus("nodes/hinode"));
     }
 
     @Test
     public void getNotExists() throws Exception {
-        assertEquals(404, getRequestStatus("nodes/fjsdklfjsdklfjlsdk"));
+        Assertions.assertEquals(404, getRequestStatus("nodes/fjsdklfjsdklfjlsdk"));
     }
 
     @Test
@@ -177,7 +177,7 @@ class MainControllerTest {
         Mockito.when(this.systemItemRepository.findByDateIsBetween(anyString(), anyString()))
                 .thenReturn(List.of(new SystemItem()));
 
-        assertEquals(200, getRequestStatus("updates?date=2022-02-04T00:00:00Z"));
+        Assertions.assertEquals(200, getRequestStatus("updates?date=2022-02-04T00:00:00Z"));
     }
 
     @Test
@@ -185,7 +185,7 @@ class MainControllerTest {
         Mockito.when(this.systemItemRepository.findByDateIsBetween(anyString(), anyString()))
                 .thenReturn(List.of(new SystemItem()));
 
-        assertEquals(400,getRequestStatus("updates?date=2022.02-04T00:00:00Z"));
+        Assertions.assertEquals(400, getRequestStatus("updates?date=2022.02-04T00:00:00Z"));
     }
 
     @Test
@@ -195,7 +195,7 @@ class MainControllerTest {
         Mockito.when(this.systemItemRepository.findById(anyString()))
                 .thenReturn(Optional.of(new SystemItem()));
 
-        assertEquals(200, getRequestStatus("node/somenode/history?dateStart=2020-02-04T00:00:00Z&dateEnd=2022-02-04T00:00:00Z"));
+        Assertions.assertEquals(200, getRequestStatus("node/somenode/history?dateStart=2020-02-04T00:00:00Z&dateEnd=2022-02-04T00:00:00Z"));
     }
 
     @Test
@@ -205,12 +205,12 @@ class MainControllerTest {
         Mockito.when(this.systemItemRepository.findById(anyString()))
                 .thenReturn(Optional.of(new SystemItem()));
 
-        assertEquals(400, getRequestStatus("node/somenode/history?dateStart=2020-02-0d4T00:00:00Z&dateEnd=2022-02-04T00:00:00Z"));
+        Assertions.assertEquals(400, getRequestStatus("node/somenode/history?dateStart=2020-02-0d4T00:00:00Z&dateEnd=2022-02-04T00:00:00Z"));
     }
 
     @Test
     public void itemHistoryNotExists() throws Exception {
-        assertEquals(404, getRequestStatus("node/somenodeee/history?dateStart=2020-02-0d4T00:00:00Z&dateEnd=2022-02-04T00:00:00Z"));
+        Assertions.assertEquals(404, getRequestStatus("node/somenodeee/history?dateStart=2020-02-0d4T00:00:00Z&dateEnd=2022-02-04T00:00:00Z"));
     }
 
     private int postRequestStatus(SystemItemImportRequest requestItem) throws Exception {
