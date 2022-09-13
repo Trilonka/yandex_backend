@@ -1,5 +1,7 @@
 # Yandex backend (Yandex Disk analog) on Java
 
+[Описание задания](./enrollment/Task.md) и [openAPI specification](./enrollment/openapi.yaml).
+
 Для начала используйте git clone, чтобы скачать проект на свой компьютер
 
 ```
