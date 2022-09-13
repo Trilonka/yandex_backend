@@ -104,7 +104,7 @@ spring.jpa.properties.hibernate.order_inserts=true
 ./mvnw clean install -DskipTests=true
 ```
 
-### Запуск приложения
+### Запуск
 
 Запустить приложение можно, используя:
 
