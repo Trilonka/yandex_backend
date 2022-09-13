@@ -106,9 +106,10 @@ public class MainController {
                                                                     @RequestParam("dateStart") String dateStart,
                                                                     @RequestParam("dateEnd") String dateEnd)
     {
-        List<SystemItemHistoryUnit> itemHistory = systemItemHistoryUnitService.getItemHistory(id, dateStart, dateEnd);
-        if (itemHistory.isEmpty())
+        if (systemItemService.findById(id).isEmpty())
             throw new SystemItemNotFoundException();
+
+        List<SystemItemHistoryUnit> itemHistory = systemItemHistoryUnitService.getItemHistory(id, dateStart, dateEnd);
 
         return new ResponseEntity<>(new SystemItemHistoryResponse(itemHistory), HttpStatus.OK);
     }
