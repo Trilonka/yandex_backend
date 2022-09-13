@@ -74,7 +74,7 @@ public class SystemItemServiceDefault implements SystemItemService {
     }
 
     public List<SystemItem> getByDateBefore(ZonedDateTime zonedDateTime) {
-        return systemItemRepository.findByDateBetween(zonedDateTime.minusDays(1).toString(), zonedDateTime.toString());
+        return systemItemRepository.findByDateIsBetween(zonedDateTime.minusDays(1).toString(), zonedDateTime.toString());
     }
 
     private ArrayList<SystemItem> defineItemsOrder(List<SystemItem> itemsToSave,
@@ -104,6 +104,8 @@ public class SystemItemServiceDefault implements SystemItemService {
 
                 while (tempItemParentId!=null && !checkedItems.containsKey(tempItemParentId) && findById(item.getParentId()).isEmpty()) {
                     temporaryItemParentTree.addLast(tempItemParentId);
+                    if (!uncheckedItems.containsKey(tempItemParentId))
+                        throw new SystemItemNotValidException();
                     tempItemParentId = uncheckedItems.get(tempItemParentId).getParentId();
                 }
                 while (!temporaryItemParentTree.isEmpty()) {
@@ -152,6 +154,9 @@ public class SystemItemServiceDefault implements SystemItemService {
                 itemParent = findById(itemParentId).get();
             else
                 itemParent = orderedItemsToSave.get(itemsInfoForQuickAccess.get(itemParentId));
+
+            if (itemParent.getDate().equals(itemToSave.getDate()) && sizeDifference==0)
+                break;
 
             if (itemParent.getType()==SystemItemType.FILE)
                 throw new SystemItemNotValidException();

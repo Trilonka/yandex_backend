@@ -12,5 +12,5 @@ public interface SystemItemRepository extends JpaRepository<SystemItem, String> 
 
     void deleteByDate(String date);
     Optional<SystemItem> findByDate(String date);
-    List<SystemItem> findByDateBetween(String low, String high);
+    List<SystemItem> findByDateIsBetween(String low, String high);
 }
