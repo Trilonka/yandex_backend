@@ -92,7 +92,7 @@ systemctl enable yandex-backend-app
 ```properties
 #src/main/resources/application.properties
 
-spring.datasource.url=jdbc:postgreqsl://localhost:5432/database_name
+spring.datasource.url=jdbc:postgresql://localhost:5432/database_name
 spring.datasource.username=user_name
 spring.datasource.password=user_password
 
