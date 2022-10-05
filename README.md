@@ -4,7 +4,7 @@
 
 Для начала используйте git clone, чтобы скачать проект на свой компьютер
 
-```
+```bash
 git clone https://github.com/Trilonka/yandex_backend.git
 ```
 
@@ -14,19 +14,19 @@ git clone https://github.com/Trilonka/yandex_backend.git
 
 Соберите jar файл:
 
-```
+```bash
 ./mvnw clean install
 ```
 
 Если Вы хотите пропустить тесты при сборке, используйте:
 
-```
+```bash
 ./mvnw clean install -DskipTests=true
 ```
 
 При установленном docker-compose все можно запустить одной командой:
 
-```
+```bash
 docker-compose up
 ```
 
@@ -34,7 +34,7 @@ docker-compose up
 
 Для запуска в фоновом режиме можно использовать:
 
-```
+```bash
 docker-compose up -d
 ```
 
@@ -42,14 +42,14 @@ docker-compose up -d
 
 Остановить все запущенные контейнеры также можно одной командой:
 
-```
+```bash
 docker-compose down
 ```
 
 Если вам нужно остановить и удалить все контейнеры и все образы, используемые какой-либо службой в файле docker-compose.yml, используйте команду
 (все данные, ранее сохраненные в таблице, будут удалены):
 
-```
+```bash
 docker-compose down --rmi all
 ```
 
@@ -110,12 +110,12 @@ spring.jpa.properties.hibernate.order_inserts=true
 
 Запустить приложение можно просто, используя:
 
-```
+```bash
 ./mvnw spring-boot:run
 ```
 
 Или при собранном jar:
 
-```
+```bash
 java -jar .\target\yandexBackend-0.0.1-SNAPSHOT.jar
 ```
